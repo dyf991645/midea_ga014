@@ -1,15 +1,13 @@
-#有建议可以ywyhass@126.com交流
 import json
 import time
 # import datetime
 import voluptuous as vol
 
 from homeassistant.components.climate import (ClimateEntity, PLATFORM_SCHEMA)
-from homeassistant.components.climate.const import (
-    ATTR_HVAC_MODE, HVAC_MODE_COOL, HVAC_MODE_DRY, HVAC_MODE_FAN_ONLY,
-    HVAC_MODE_HEAT, SUPPORT_FAN_MODE, HVAC_MODE_AUTO, HVAC_MODE_OFF,
-    SUPPORT_TARGET_TEMPERATURE,SUPPORT_SWING_MODE,SUPPORT_AUX_HEAT)
-from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_PORT,TEMP_CELSIUS, ATTR_TEMPERATURE,STATE_ON,STATE_OFF)
+from homeassistant.components.climate.const import ATTR_HVAC_MODE
+from homeassistant.components.climate.const import (HVACMode, ClimateEntityFeature)
+from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_PORT, ATTR_TEMPERATURE, STATE_ON, STATE_OFF)
+from homeassistant.const import (UnitOfTemperature)
 import homeassistant.helpers.config_validation as cv
 import requests
 
@@ -19,7 +17,7 @@ from datetime import timedelta
 SCAN_INTERVAL = timedelta(seconds=1)
 
 #工作模式
-MODE_HVAC={0:HVAC_MODE_OFF,1:HVAC_MODE_FAN_ONLY,2:HVAC_MODE_COOL,3:HVAC_MODE_HEAT,4:HVAC_MODE_AUTO,5:HVAC_MODE_DRY}
+MODE_HVAC={0:HVACMode.OFF,1:HVACMode.FAN_ONLY,2:HVACMode.COOL,3:HVACMode.HEAT,4:HVACMode.AUTO,5:HVACMode.DRY}
 #风力模式 #修改后可适配homekit
 # MODE_FAN ={0:'关',1:'一档风',2:'二档风', 3:'三档风', 4:'四档风', 5:'五档风', 6:'六档风', 7:'七档风',8:'自动风'}
 MODE_FAN ={0:'off',1:'low',2:'higher low', 3:'middle', 4:'really middle', 5:'medium', 6:'lower high', 7:'high',8:'auto'}
@@ -62,7 +60,7 @@ class Thermostat(ClimateEntity):
     @property
     def supported_features(self):
         """Return the list of supported features."""
-        return (SUPPORT_TARGET_TEMPERATURE|SUPPORT_FAN_MODE|SUPPORT_SWING_MODE|SUPPORT_AUX_HEAT)
+        return (ClimateEntityFeature.TARGET_TEMPERATURE|ClimateEntityFeature.FAN_MODE|ClimateEntityFeature.SWING_MODE|ClimateEntityFeature.AUX_HEAT)
 
     @property
     def should_poll(self):
@@ -107,7 +105,7 @@ class Thermostat(ClimateEntity):
     @property
     def temperature_unit(self):
         """Return the unit of measurement."""
-        return TEMP_CELSIUS
+        return UnitOfTemperature.CELSIUS
 
     #当前室温
     @property
