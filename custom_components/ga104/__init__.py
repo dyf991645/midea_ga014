@@ -2,8 +2,8 @@ import logging
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 from homeassistant.const import (CONF_HOST, EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP)
-from custom_components.ga104.ga014 import GA014
 from homeassistant.helpers.discovery import load_platform
+from .ga014 import GA014
 
 _LOGGER = logging.getLogger(__name__)
 

@@ -184,6 +184,7 @@ class Thermostat(ClimateEntity):
             self._hass.data['ga014'].set_status(self._id, self._run_mode, self._fan_speed, self._set_temp, self._aux,
                                                 self._swing)
 
+    # https://developers.home-assistant.io/blog/2024/03/10/climate-aux-heater-deprecated
     @property
     def is_aux_heat(self):
         return self._aux
